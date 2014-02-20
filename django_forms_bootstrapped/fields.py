@@ -18,6 +18,10 @@ class DateField(djfields.DateField):
         'label_classes': ["control-label"],
     }
 
+    def __init__(self, *args, **kwargs):
+        self.placeholder = kwargs.pop('placeholder', None)
+        return super(DateField, self).__init__(*args, **kwargs)
+
 
 class BooleanField(djfields.BooleanField):
     widget = CheckboxInput

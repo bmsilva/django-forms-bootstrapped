@@ -1,6 +1,10 @@
+import logging
 from itertools import chain
 
 import django.forms.widgets as widgets
+
+
+log = logging.getLogger(__name__)
 
 
 def add_class(attrs, *args):
@@ -18,7 +22,6 @@ class TextInput(widgets.TextInput):
         super(TextInput, self).__init__(add_class(attrs, 'form-control'))
 
     def render(self, name, value, attrs=None):
-        attrs['placeholder'] = name
         return super(TextInput, self).render(name, value, attrs)
 
 
@@ -27,7 +30,6 @@ class DateInput(widgets.DateInput):
         super(DateInput, self).__init__(add_class(attrs, 'form-control'))
 
     def render(self, name, value, attrs=None):
-        attrs['placeholder'] = name
         return super(DateInput, self).render(name, value, attrs)
 
 
