@@ -1,6 +1,10 @@
 import django.forms.fields as djfields
 
-from .widgets import TextInput, DateInput, CheckboxInput
+from .widgets import TextInput, DateInput, CheckboxInput, Select
+
+__all__ = (
+    'CharField', 'DateField', 'BooleanField', 'ChoiceField',
+)
 
 
 class CharField(djfields.CharField):
@@ -25,6 +29,14 @@ class DateField(djfields.DateField):
 
 class BooleanField(djfields.BooleanField):
     widget = CheckboxInput
+    bootstrap_options = {
+        'extra_classes': ["form-group"],
+        'label_classes': ["control-label"],
+    }
+
+
+class ChoiceField(djfields.ChoiceField):
+    widget = Select
     bootstrap_options = {
         'extra_classes': ["form-group"],
         'label_classes': ["control-label"],

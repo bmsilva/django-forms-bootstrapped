@@ -35,3 +35,8 @@ class DateInput(widgets.DateInput):
 
 class CheckboxInput(widgets.CheckboxInput):
     pass
+
+
+class Select(widgets.Select):
+    def __init__(self, attrs=None):
+        super(Select, self).__init__(add_class(attrs, 'form-control'))

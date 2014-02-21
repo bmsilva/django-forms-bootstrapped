@@ -43,7 +43,7 @@ class BoundField(fforms.BoundField):
     def __str__(self):
         """Renders this field as an HTML widget."""
         attrs = None
-        if getattr(self.field, 'placeholder') is not None:
+        if getattr(self.field, 'placeholder', None) is not None:
             if callable(self.field.placeholder):
                 attrs = {'placeholder': self.field.placeholder()}
             else:
@@ -94,14 +94,18 @@ class Form(fforms.Form):
                 field=field_str,
             )
         if self.bootstrap_opts['as_p_use_divs']:
-            normal_row = '<div%(html_class_attr)s>%(label)s {field}%(help_text)s</div>'.format( # noqa
-                field=field_str,
-            )
+            normal_row = (
+                '<div%(html_class_attr)s>'
+                '%(label)s {field}%(help_text)s'
+                '</div>'
+            ).format(field=field_str)
             row_ender = '</div>'
         else:
-            normal_row = '<p%(html_class_attr)s>%(label)s {field}%(help_text)s</p>'.format( # noqa
-                field=field_str,
-            )
+            normal_row = (
+                '<p%(html_class_attr)s>'
+                '%(label)s {field}%(help_text)s'
+                '</p>'
+            ).format(field=field_str)
             row_ender = '</p>'
         return self._html_output(
             normal_row=normal_row,
