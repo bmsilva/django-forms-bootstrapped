@@ -4,6 +4,9 @@ import logging
 
 from django.test import TestCase
 
+import django.forms as djforms
+import django.forms.widgets as djwidgets
+
 import django_forms_bootstrapped as forms
 import django_forms_bootstrapped.widgets as widgets
 
@@ -131,6 +134,93 @@ class FormTestCase(TestCase):
             u'<option value="1">choice 1</option>\n'
             u'<option value="2">choice 2</option>\n'
             u'</select>'
+            u'</div>'
+            u'</div>'
+        )
+        self.assertEqual(rendered, html)
+
+    def test_choicefield_with_radio(self):
+        class DJSimpleForm(djforms.Form):
+            choose = forms.ChoiceField(
+                choices=((1, 'choice 1'), (2, 'choice 2')),
+                widget=djwidgets.RadioSelect,
+                )
+        sform = DJSimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<p>'
+            u'<label for="id_choose_0">Choose:</label> '
+            u'<ul id="id_choose">\n'
+            u'<li><label for="id_choose_0"><input id="id_choose_0" name="choose" type="radio" value="1" /> choice 1</label></li>\n'
+            u'<li><label for="id_choose_1"><input id="id_choose_1" name="choose" type="radio" value="2" /> choice 2</label></li>\n'
+            u'</ul>'
+            u'</p>'
+        )
+        self.assertEqual(rendered, html)
+
+        class SimpleForm(forms.Form):
+            choose = forms.ChoiceField(
+                choices=((1, 'choice 1'), (2, 'choice 2')),
+                widget=widgets.RadioSelect,
+            )
+            bootstrap_options = {}
+
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<p class="form-group">'
+            u'<label class="control-label" for="id_choose_0">Choose:</label> '
+            u'<div class="radio">'
+            u'<label for="id_choose_0">'
+            u'<input id="id_choose_0" name="choose" type="radio" value="1" /> choice 1'
+            u'</label>'
+            u'</div>\n'
+            u'<div class="radio">'
+            u'<label for="id_choose_1">'
+            u'<input id="id_choose_1" name="choose" type="radio" value="2" /> choice 2'
+            u'</label>'
+            u'</div>'
+            u'</p>'
+        )
+        self.assertEqual(rendered, html)
+
+        SimpleForm.bootstrap_options['as_p_use_divs'] = True
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<div class="form-group">'
+            u'<label class="control-label" for="id_choose_0">Choose:</label> '
+            u'<div class="radio">'
+            u'<label for="id_choose_0">'
+            u'<input id="id_choose_0" name="choose" type="radio" value="1" /> choice 1'
+            u'</label>'
+            u'</div>\n'
+            u'<div class="radio">'
+            u'<label for="id_choose_1">'
+            u'<input id="id_choose_1" name="choose" type="radio" value="2" /> choice 2'
+            u'</label>'
+            u'</div>'
+            u'</div>'
+        )
+        self.assertEqual(rendered, html)
+
+        SimpleForm.bootstrap_options['form_layout'] = 'form-horizontal'
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<div class="form-group">'
+            u'<label class="control-label col-sm-2" for="id_choose_0">Choose:</label> '
+            u'<div class="col-sm-10">'
+            u'<div class="radio">'
+            u'<label for="id_choose_0">'
+            u'<input id="id_choose_0" name="choose" type="radio" value="1" /> choice 1'
+            u'</label>'
+            u'</div>\n'
+            u'<div class="radio">'
+            u'<label for="id_choose_1">'
+            u'<input id="id_choose_1" name="choose" type="radio" value="2" /> choice 2'
+            u'</label>'
+            u'</div>'
             u'</div>'
             u'</div>'
         )
