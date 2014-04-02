@@ -267,3 +267,43 @@ class FormTestCase(TestCase):
             u'</div>'
         )
         self.assertEqual(rendered, html)
+
+
+    def test_filefield(self):
+        class SimpleForm(forms.Form):
+            file_in = forms.FileField()
+            bootstrap_options = {}
+
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<p>'
+            u'<label for="id_file_in">File in:</label> '
+            u'<input class="form-control" id="id_file_in" name="file_in" type="file" />'
+            u'</p>'
+        )
+        self.assertEqual(rendered, html)
+
+        SimpleForm.bootstrap_options['as_p_use_divs'] = True
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<div>'
+            u'<label for="id_file_in">File in:</label> '
+            u'<input class="form-control" id="id_file_in" name="file_in" type="file" />'
+            u'</div>'
+        )
+        self.assertEqual(rendered, html)
+
+        SimpleForm.bootstrap_options['form_layout'] = 'form-horizontal'
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<div>'
+            u'<label class="col-sm-2" for="id_file_in">File in:</label> '
+            u'<div class="col-sm-10">'
+            u'<input class="form-control" id="id_file_in" name="file_in" type="file" />'
+            u'</div>'
+            u'</div>'
+        )
+        self.assertEqual(rendered, html)

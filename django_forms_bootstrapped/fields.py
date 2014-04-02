@@ -2,10 +2,12 @@ import django.forms.fields as djfields
 
 from .widgets import (
     TextInput, DateInput, CheckboxInput, Select, DateTimeInput,
+    ClearableFileInput,
 )
 
 __all__ = (
     'CharField', 'DateField', 'BooleanField', 'ChoiceField', 'DateTimeField',
+    'FileField',
 )
 
 
@@ -55,3 +57,7 @@ class DateTimeField(djfields.DateTimeField):
     def __init__(self, *args, **kwargs):
         self.placeholder = kwargs.pop('placeholder', None)
         return super(DateTimeField, self).__init__(*args, **kwargs)
+
+
+class FileField(djfields.FileField):
+    widget = ClearableFileInput

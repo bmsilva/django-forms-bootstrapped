@@ -34,10 +34,14 @@ class BoundField(fforms.BoundField):
                 self.form.bootstrap_opts['form_layout_sizes'][0],
             ))
 
-        attrs = dict(
-            attrs or {},
-            **{'class': ' '.join(chain(opts['label_classes'], classes))}
-        )
+        label_classes = opts.get('label_classes', [])
+        if (len(label_classes) + len(classes)) == 0:
+            attrs = dict(attrs or {})
+        else:
+            classes_joined = {
+                'class': ' '.join(chain(label_classes, classes))
+            }
+            attrs = dict( attrs or {}, **classes_joined )
         return super(BoundField, self).label_tag(contents, attrs, label_suffix)
 
     def __str__(self):
