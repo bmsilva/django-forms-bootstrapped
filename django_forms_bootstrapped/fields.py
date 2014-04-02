@@ -1,9 +1,11 @@
 import django.forms.fields as djfields
 
-from .widgets import TextInput, DateInput, CheckboxInput, Select
+from .widgets import (
+    TextInput, DateInput, CheckboxInput, Select, DateTimeInput,
+)
 
 __all__ = (
-    'CharField', 'DateField', 'BooleanField', 'ChoiceField',
+    'CharField', 'DateField', 'BooleanField', 'ChoiceField', 'DateTimeField',
 )
 
 
@@ -41,3 +43,15 @@ class ChoiceField(djfields.ChoiceField):
         'extra_classes': ["form-group"],
         'label_classes': ["control-label"],
     }
+
+
+class DateTimeField(djfields.DateTimeField):
+    widget = DateTimeInput
+    bootstrap_options = {
+        'extra_classes': ["form-group"],
+        'label_classes': ["control-label"],
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.placeholder = kwargs.pop('placeholder', None)
+        return super(DateTimeField, self).__init__(*args, **kwargs)

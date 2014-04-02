@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 __all__ = (
     'TextInput', 'DateInput', 'CheckboxInput', 'Select', 'Textarea',
-    'RadioSelect',
+    'RadioSelect', 'DateTimeInput',
 )
 
 
@@ -81,3 +81,8 @@ class RadioFieldRenderer(ChoiceFieldRenderer):
 
 class RadioSelect(widgets.RadioSelect):
     renderer = RadioFieldRenderer
+
+
+class DateTimeInput(widgets.DateTimeInput):
+    def __init__(self, attrs=None):
+        super(DateTimeInput, self).__init__(add_class(attrs, 'form-control'))

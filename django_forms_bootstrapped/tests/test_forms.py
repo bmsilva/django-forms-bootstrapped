@@ -30,7 +30,8 @@ class FormTestCase(TestCase):
             u'<input class="form-control" id="id_name" maxlength="50" name="name" type="text" />'
             u'</p>'
         )
-        self.assertEqual(rendered, html, 'testing simple form with no bootstrap')
+        self.assertEqual(rendered, html,
+                         'testing simple form with no bootstrap')
 
     def test_simple_form_bootstrap_options(self):
         class SimpleForm(forms.Form):
@@ -47,7 +48,8 @@ class FormTestCase(TestCase):
             u'<input class="form-control" id="id_name" maxlength="50" name="name" type="text" />'
             u'</div>'
         )
-        self.assertEqual(rendered, html, 'testing simple form with bootstrap options')
+        self.assertEqual(rendered, html,
+                         'testing simple form with bootstrap options')
 
         SimpleForm.bootstrap_options['form_layout'] = 'form-horizontal'
         sform = SimpleForm()
@@ -144,7 +146,8 @@ class FormTestCase(TestCase):
             choose = forms.ChoiceField(
                 choices=((1, 'choice 1'), (2, 'choice 2')),
                 widget=djwidgets.RadioSelect,
-                )
+            )
+
         sform = DJSimpleForm()
         rendered = sform.as_p()
         html = (
@@ -225,3 +228,42 @@ class FormTestCase(TestCase):
             u'</div>'
         )
         self.assertEqual(rendered, html, 'radio in form-horizontal')
+
+    def test_datetimefield(self):
+        class SimpleForm(forms.Form):
+            date_in = forms.DateTimeField()
+            bootstrap_options = {}
+
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<p class="form-group">'
+            u'<label class="control-label" for="id_date_in">Date in:</label> '
+            u'<input class="form-control" id="id_date_in" name="date_in" type="text" />'
+            u'</p>'
+        )
+        self.assertEqual(rendered, html)
+
+        SimpleForm.bootstrap_options['as_p_use_divs'] = True
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<div class="form-group">'
+            u'<label class="control-label" for="id_date_in">Date in:</label> '
+            u'<input class="form-control" id="id_date_in" name="date_in" type="text" />'
+            u'</div>'
+        )
+        self.assertEqual(rendered, html)
+
+        SimpleForm.bootstrap_options['form_layout'] = 'form-horizontal'
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<div class="form-group">'
+            u'<label class="control-label col-sm-2" for="id_date_in">Date in:</label> '
+            u'<div class="col-sm-10">'
+            u'<input class="form-control" id="id_date_in" name="date_in" type="text" />'
+            u'</div>'
+            u'</div>'
+        )
+        self.assertEqual(rendered, html)
