@@ -1,2 +1,5 @@
-from django_forms_bootstrapped.models import *
-from django_forms_bootstrapped.forms import Form
+from .models import ModelForm
+from .forms import Form
+from .fields import (
+    CharField, ChoiceField, DateField, BooleanField,
+)

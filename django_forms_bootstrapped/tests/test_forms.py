@@ -4,7 +4,8 @@ import logging
 
 from django.test import TestCase
 
-import django_forms_bootstrapped.forms as forms
+import django_forms_bootstrapped as forms
+import django_forms_bootstrapped.widgets as widgets
 
 
 log = logging.getLogger(__name__)
@@ -59,3 +60,16 @@ class FormTestCase(TestCase):
         self.assertEqual(rendered, html)
 
 
+    def test_charfield(self):
+        class SimpleForm(forms.Form):
+            body = forms.CharField(widget=widgets.Textarea)
+
+        sform = SimpleForm()
+        rendered = sform.as_p()
+        html = (
+            u'<p class="form-group">'
+            u'<label class="control-label" for="id_body">Body:</label> '
+            u'<textarea class="form-control" cols="40" id="id_body" name="body" rows="10">\r\n</textarea>'
+            u'</p>'
+        )
+        self.assertEqual(rendered, html)
