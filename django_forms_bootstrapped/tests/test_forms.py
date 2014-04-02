@@ -156,7 +156,7 @@ class FormTestCase(TestCase):
             u'</ul>'
             u'</p>'
         )
-        self.assertEqual(rendered, html)
+        self.assertEqual(rendered, html, 'testing django radio')
 
         class SimpleForm(forms.Form):
             choose = forms.ChoiceField(
@@ -182,7 +182,7 @@ class FormTestCase(TestCase):
             u'</div>'
             u'</p>'
         )
-        self.assertEqual(rendered, html)
+        self.assertEqual(rendered, html, 'simple radio')
 
         SimpleForm.bootstrap_options['as_p_use_divs'] = True
         sform = SimpleForm()
@@ -202,7 +202,7 @@ class FormTestCase(TestCase):
             u'</div>'
             u'</div>'
         )
-        self.assertEqual(rendered, html)
+        self.assertEqual(rendered, html, 'radio with divs')
 
         SimpleForm.bootstrap_options['form_layout'] = 'form-horizontal'
         sform = SimpleForm()
@@ -224,4 +224,4 @@ class FormTestCase(TestCase):
             u'</div>'
             u'</div>'
         )
-        self.assertEqual(rendered, html)
+        self.assertEqual(rendered, html, 'radio in form-horizontal')
