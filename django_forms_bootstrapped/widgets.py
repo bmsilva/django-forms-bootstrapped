@@ -10,9 +10,8 @@ from django.utils.safestring import mark_safe
 
 __all__ = (
     'TextInput', 'DateInput', 'CheckboxInput', 'Select', 'Textarea',
-    'RadioSelect', 'DateTimeInput', 'ClearableFileInput',
+    'RadioSelect', 'DateTimeInput', 'ClearableFileInput', 'PasswordInput',
 )
-
 
 log = logging.getLogger('__name__')
 
@@ -58,7 +57,8 @@ class ChoiceFieldRenderer(widgets.ChoiceFieldRenderer):
         #output = [start_tag]
         output = []
         for widget in self:
-            output.append(format_html('<div class="radio">{0}</div>', force_text(widget)))
+            output.append(format_html('<div class="radio">{0}</div>',
+                                      force_text(widget)))
         #output.append('</ul>')
         return mark_safe('\n'.join(output))
 
@@ -90,4 +90,10 @@ class DateTimeInput(widgets.DateTimeInput):
 
 class ClearableFileInput(widgets.ClearableFileInput):
     def __init__(self, attrs=None):
-        super(ClearableFileInput, self).__init__(add_class(attrs, 'form-control'))
+        super(ClearableFileInput, self).__init__(
+            add_class(attrs, 'form-control'))
+
+
+class PasswordInput(widgets.PasswordInput):
+    def __init__(self, attrs=None):
+        super(PasswordInput, self).__init__(add_class(attrs, 'form-control'))
