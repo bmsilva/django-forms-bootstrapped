@@ -1,9 +1,12 @@
-from django.forms import util
+try:
+    from django.forms.util import ErrorList
+except ImportError:
+    from django.forms.utils import ErrorList
 from django.utils.html import format_html_join
 from django.utils.encoding import force_text
 
 
-class ErrorList(util.ErrorList):
+class ErrorList(ErrorList):
     """
     A collection of errors that knows how to display itself in various formats.
     """
